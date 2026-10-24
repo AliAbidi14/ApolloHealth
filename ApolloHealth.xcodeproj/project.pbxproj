@@ -15,11 +15,13 @@
 		C1AD61CE2C5D8D430089DE0B /* ApolloHealthTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1AD61CD2C5D8D430089DE0B /* ApolloHealthTests.swift */; };
 		C1AD61D82C5D8D430089DE0B /* ApolloHealthUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1AD61D72C5D8D430089DE0B /* ApolloHealthUITests.swift */; };
 		C1AD61DA2C5D8D430089DE0B /* ApolloHealthUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1AD61D92C5D8D430089DE0B /* ApolloHealthUITestsLaunchTests.swift */; };
-		C1AD61E72C5D8D740089DE0B /* addressesfinal.csv in Resources */ = {isa = PBXBuildFile; fileRef = C1AD61E62C5D8D740089DE0B /* addressesfinal.csv */; };
 		C1AD61EA2C5D8DD40089DE0B /* SplashScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1AD61E92C5D8DD40089DE0B /* SplashScreenView.swift */; };
 		C1AD61EE2C5D91E20089DE0B /* FontNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1AD61ED2C5D91E20089DE0B /* FontNameView.swift */; };
-		C1AD61EF2C5D93300089DE0B /* ReemKufi-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C1AD61E82C5D8D950089DE0B /* ReemKufi-Bold.ttf */; };
 		C1AD61F12C5D938E0089DE0B /* ReemKufi-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C1AD61F02C5D938D0089DE0B /* ReemKufi-SemiBold.ttf */; };
+		C1EB4B1B3037A50A00808274 /* AppLocalization.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1EB4B1A3037A50500808274 /* AppLocalization.swift */; };
+		C1EB4B1D3037AF9200808274 /* DisclaimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1EB4B1C3037AF7800808274 /* DisclaimerView.swift */; };
+		C1EB4B233037BFA700808274 /* addressesall.csv in Resources */ = {isa = PBXBuildFile; fileRef = C1EB4B223037BFA700808274 /* addressesall.csv */; };
+		C1EB4B33303A24D300808274 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C1EB4B32303A24D300808274 /* InfoPlist.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,11 +53,15 @@
 		C1AD61D32C5D8D430089DE0B /* ApolloHealthUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ApolloHealthUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1AD61D72C5D8D430089DE0B /* ApolloHealthUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApolloHealthUITests.swift; sourceTree = "<group>"; };
 		C1AD61D92C5D8D430089DE0B /* ApolloHealthUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApolloHealthUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		C1AD61E62C5D8D740089DE0B /* addressesfinal.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = addressesfinal.csv; path = ../../../Downloads/addressesfinal.csv; sourceTree = "<group>"; };
-		C1AD61E82C5D8D950089DE0B /* ReemKufi-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ReemKufi-Bold.ttf"; path = "../../../Downloads/Reem_Kufi (1)/static/ReemKufi-Bold.ttf"; sourceTree = "<group>"; };
 		C1AD61E92C5D8DD40089DE0B /* SplashScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreenView.swift; sourceTree = "<group>"; };
 		C1AD61ED2C5D91E20089DE0B /* FontNameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontNameView.swift; sourceTree = "<group>"; };
 		C1AD61F02C5D938D0089DE0B /* ReemKufi-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "ReemKufi-SemiBold.ttf"; path = "../../../Downloads/Reem_Kufi (1)/static/ReemKufi-SemiBold.ttf"; sourceTree = "<group>"; };
+		C1EB4B1A3037A50500808274 /* AppLocalization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLocalization.swift; sourceTree = "<group>"; };
+		C1EB4B1C3037AF7800808274 /* DisclaimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisclaimerView.swift; sourceTree = "<group>"; };
+		C1EB4B223037BFA700808274 /* addressesall.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = addressesall.csv; sourceTree = "<group>"; };
+		C1EB4B31303A24D300808274 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		C1EB4B34303A24D400808274 /* hmn */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hmn; path = hmn.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		C1EB4B35303A24D500808274 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,9 +92,11 @@
 		C1AD61AE2C5D8D420089DE0B = {
 			isa = PBXGroup;
 			children = (
-				C1AD61E62C5D8D740089DE0B /* addressesfinal.csv */,
+				C1EB4B1C3037AF7800808274 /* DisclaimerView.swift */,
+				C1EB4B1A3037A50500808274 /* AppLocalization.swift */,
+				C1EB4B223037BFA700808274 /* addressesall.csv */,
 				C1AD61F02C5D938D0089DE0B /* ReemKufi-SemiBold.ttf */,
-				C1AD61E82C5D8D950089DE0B /* ReemKufi-Bold.ttf */,
+				C1EB4B32303A24D300808274 /* InfoPlist.strings */,
 				C1AD61B92C5D8D420089DE0B /* ApolloHealth */,
 				C1AD61CC2C5D8D430089DE0B /* ApolloHealthTests */,
 				C1AD61D62C5D8D430089DE0B /* ApolloHealthUITests */,
@@ -231,6 +239,8 @@
 			knownRegions = (
 				en,
 				Base,
+				es,
+				hmn,
 			);
 			mainGroup = C1AD61AE2C5D8D420089DE0B;
 			productRefGroup = C1AD61B82C5D8D420089DE0B /* Products */;
@@ -249,11 +259,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C1AD61EF2C5D93300089DE0B /* ReemKufi-Bold.ttf in Resources */,
-				C1AD61E72C5D8D740089DE0B /* addressesfinal.csv in Resources */,
 				C1AD61C42C5D8D430089DE0B /* Preview Assets.xcassets in Resources */,
 				C1AD61F12C5D938E0089DE0B /* ReemKufi-SemiBold.ttf in Resources */,
 				C1AD61C12C5D8D430089DE0B /* Assets.xcassets in Resources */,
+				C1EB4B233037BFA700808274 /* addressesall.csv in Resources */,
+				C1EB4B33303A24D300808274 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -279,10 +289,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				C1AD61BD2C5D8D420089DE0B /* ContentView.swift in Sources */,
+				C1EB4B1B3037A50A00808274 /* AppLocalization.swift in Sources */,
 				C1AD61BF2C5D8D420089DE0B /* Item.swift in Sources */,
 				C1AD61BB2C5D8D420089DE0B /* ApolloHealthApp.swift in Sources */,
 				C1AD61EA2C5D8DD40089DE0B /* SplashScreenView.swift in Sources */,
 				C1AD61EE2C5D91E20089DE0B /* FontNameView.swift in Sources */,
+				C1EB4B1D3037AF9200808274 /* DisclaimerView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -317,6 +329,19 @@
 			targetProxy = C1AD61D42C5D8D430089DE0B /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		C1EB4B32303A24D300808274 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C1EB4B31303A24D300808274 /* en */,
+				C1EB4B34303A24D400808274 /* hmn */,
+				C1EB4B35303A24D500808274 /* es */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		C1AD61DB2C5D8D430089DE0B /* Debug */ = {
@@ -371,6 +396,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_KEY_NSLocationUsageDescription = "ApolloHealth uses your location to help you find nearby free and low-cost healthcare clinics based on your current location.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "ApolloHealth uses your location to help you find nearby free and low-cost healthcare clinics based on your current location.";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
@@ -428,6 +455,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_KEY_NSLocationUsageDescription = "ApolloHealth uses your location to help you find nearby free and low-cost healthcare clinics based on your current location.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "ApolloHealth uses your location to help you find nearby free and low-cost healthcare clinics based on your current location.";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
@@ -444,30 +473,34 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"ApolloHealth/Preview Content\"";
-				DEVELOPMENT_TEAM = 9C78WLVHN3;
+				DEVELOPMENT_TEAM = JMNK6VWZUV;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ApolloHealth/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "";
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Please allow us to use your location";
+				INFOPLIST_KEY_NSLocationUsageDescription = "ApolloHealth uses your location to help you find nearby free and low-cost healthcare clinics based on your current location.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "ApolloHealth uses your location to help you find nearby free and low-cost healthcare clinics based on your current location.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.apollohealth.ApolloHealth;
+				MARKETING_VERSION = 2.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.SEHAT.ApolloHealth;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -477,30 +510,34 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"ApolloHealth/Preview Content\"";
-				DEVELOPMENT_TEAM = 9C78WLVHN3;
+				DEVELOPMENT_TEAM = JMNK6VWZUV;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ApolloHealth/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "";
 				INFOPLIST_KEY_LSApplicationCategoryType = "";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Please allow us to use your location";
+				INFOPLIST_KEY_NSLocationUsageDescription = "ApolloHealth uses your location to help you find nearby free and low-cost healthcare clinics based on your current location.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "ApolloHealth uses your location to help you find nearby free and low-cost healthcare clinics based on your current location.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.apollohealth.ApolloHealth;
+				MARKETING_VERSION = 2.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.SEHAT.ApolloHealth;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

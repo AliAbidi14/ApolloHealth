@@ -1,13 +1,9 @@
-
 //  ContentView.swift
 //  ApolloHealth
 //
 //  Created by Ali Abidi for the 2024 Congressional App Challenge.
-
-
 import SwiftUI
 import CoreLocation
-
 class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     private let locationManager = CLLocationManager()
     @Published var currentLocation: CLLocation?
@@ -17,7 +13,6 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
         super.init()
         locationManager.delegate = self
     }
-
     // Asking user to allow access to current location with options
     func requestLocationAccess() {
         let status = locationManager.authorizationStatus
@@ -32,7 +27,6 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
             break
         }
     }
-
     // Reading current location authorization status based on user input
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         DispatchQueue.main.async {
@@ -49,20 +43,30 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
             }
         }
     }
-
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         DispatchQueue.main.async {
             self.currentLocation = locations.last
         }
     }
-
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("Location manager error: \(error)")
     }
 }
-
 //Creating user interface for the input search screen
+struct ServiceOption: Identifiable, Hashable {
+    let id: String
+    let displayName: String
+}
+
 struct InputScreenView: View {
+    let language: AppLanguage
+    @AppStorage("acknowledgedDisclaimerVersion")
+    private var acknowledgedDisclaimerVersion: Int = 0
+    private let currentDisclaimerVersion = 2
+    @State private var showLaunchDisclaimer = false
+    private var strings: AppStrings {
+        AppStrings(language: language)
+    }
     @State private var zipCode: String = ""
     @State private var selectedDistance: Int = 5
     @State private var selectedServices: Set<String> = []
@@ -71,32 +75,52 @@ struct InputScreenView: View {
     @State private var errorMessage: String? = nil
     @State private var isUsingCurrentLocation: Bool = false
     @State private var showResults: Bool = false
+    @State private var geocodedLocation: CLLocation? = nil
     
     let distanceOptions = [5, 10, 25, 50, 100]
-    let serviceOptions = ["Medical", "Dental", "Physical Therapy", "Behavioral Health", "Pharmacy"]
+    private var serviceOptions: [ServiceOption] {
+        [
+            ServiceOption(
+                id: "Medical",
+                displayName: strings.medical
+            ),
+            ServiceOption(
+                id: "Dental",
+                displayName: strings.dental
+            ),
+            ServiceOption(
+                id: "Physical Therapy",
+                displayName: strings.physicalTherapy
+            ),
+            ServiceOption(
+                id: "Behavioral Health",
+                displayName: strings.behavioralHealth
+            ),
+            ServiceOption(
+                id: "Pharmacy",
+                displayName: strings.pharmacy
+            )
+        ]
+    }
     
     @StateObject private var locationManager = LocationManager()
     private let geocoder = CLGeocoder()
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
-                    Text("This service is currently available only in the state of Wisconsin")
+                    Text(strings.emergencyBanner)
                         .font(.system(size: 17, weight: .semibold))
+                        .multilineTextAlignment(.center)
+                        .frame(maxWidth: .infinity, alignment: .center)
                         .padding()
                         .background(Color.blue.opacity(0.2))
                         .cornerRadius(8)
                         .padding(.top, 32)
                     
                     Toggle(isOn: $isUsingCurrentLocation) {
-                        VStack(alignment: .leading) {
-                            Text("Use Current Location")
-                            Text("Or Enter Zip Code Below")
-                                .font(.subheadline)
-                                .foregroundColor(.gray)
-
-                        }
+                        Text(strings.useCurrentLocation)
                     }
                     .tint(.blue)
                     .onChange(of: isUsingCurrentLocation) {
@@ -108,19 +132,22 @@ struct InputScreenView: View {
                     if isUsingCurrentLocation {
                         switch locationManager.locationStatus {
                         case .notDetermined:
-                            Text("Location permission required")
+                            Text(strings.locationPermissionRequired)
                                 .foregroundColor(.red)
+
                         case .restricted, .denied:
-                            Text("Location access is denied. Please enable it in settings.")
+                            Text(strings.locationAccessDenied)
                                 .foregroundColor(.red)
+
                         case .authorizedWhenInUse, .authorizedAlways:
-                            Text("Using your current location")
+                            Text(strings.usingCurrentLocation)
+
                         @unknown default:
-                            Text("Unknown location status")
+                            Text(strings.unknownLocationStatus)
                                 .foregroundColor(.red)
                         }
                     } else {
-                        TextField("Enter Zip Code", text: $zipCode)
+                        TextField(strings.enterZip, text: $zipCode)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
                             .keyboardType(.numberPad)
                             .onChange(of: zipCode) {
@@ -137,12 +164,12 @@ struct InputScreenView: View {
                     }
                     
                     HStack {
-                        Text("Select Distance:")
+                        Text(strings.searchDistance)
                             .font(.headline)
                         Spacer()
-                        Picker("Select the Distance", selection: $selectedDistance) {
+                        Picker(strings.selectDistance, selection: $selectedDistance) {
                             ForEach(distanceOptions, id: \.self) { distance in
-                                Text("\(distance) miles").tag(distance)
+                                Text("\(distance) \(strings.miles)").tag(distance)
                             }
                         }
                         .pickerStyle(MenuPickerStyle())
@@ -151,19 +178,25 @@ struct InputScreenView: View {
                     .padding()
                     
                     VStack(alignment: .leading) {
-                        Text("Select Services (Required):")
+                        Text(strings.selectServices)
                             .font(.headline)
-                        ForEach(serviceOptions, id: \.self) { service in
-                            Toggle(service, isOn: Binding(
-                                get: { self.selectedServices.contains(service) },
-                                set: { isChecked in
-                                    if isChecked {
-                                        self.selectedServices.insert(service)
-                                    } else {
-                                        self.selectedServices.remove(service)
+                        ForEach(serviceOptions) { service in
+                            
+                            Toggle(
+                                service.displayName,
+                                isOn: Binding(
+                                    get: {
+                                        self.selectedServices.contains(service.id)
+                                    },
+                                    set: { isChecked in
+                                        if isChecked {
+                                            self.selectedServices.insert(service.id)
+                                        } else {
+                                            self.selectedServices.remove(service.id)
+                                        }
                                     }
-                                }
-                            ))
+                                )
+                            )
                             .padding(.vertical, 2)
                             .tint(.blue)
                         }
@@ -175,7 +208,7 @@ struct InputScreenView: View {
                             performSearch()
                             showResults = true
                         } label: {
-                            Text("Search")
+                            Text(strings.search)
                                 .padding()
                                 .font(.headline)
                                 .foregroundColor(Color.white)
@@ -190,18 +223,38 @@ struct InputScreenView: View {
                     }
                     .frame(maxWidth: .infinity)
                     
-                    NavigationLink(
-                        destination: SearchResultsView(results: $results, isLoading: $isLoading, errorMessage: $errorMessage, locationManager: locationManager),
-                        isActive: $showResults
-                    ) {
-                        EmptyView()
+                    .navigationDestination(isPresented: $showResults) {
+                        SearchResultsView(
+                            results: $results,
+                            isLoading: $isLoading,
+                            errorMessage: $errorMessage,
+                            locationManager: locationManager,
+                            geocodedLocation: geocodedLocation,
+                            language: language
+                        )
                     }
+
                 }
                 .padding()
             }
             .background(Color(UIColor.systemBackground))
             .edgesIgnoringSafeArea(.all)
             .navigationBarHidden(true)
+        }
+        
+        .onAppear {
+            if acknowledgedDisclaimerVersion < currentDisclaimerVersion {
+                showLaunchDisclaimer = true
+            }
+        }
+        .sheet(isPresented: $showLaunchDisclaimer) {
+            DisclaimerView(
+                language: language,
+                acknowledgmentRequired: true
+            ) {
+                acknowledgedDisclaimerVersion = currentDisclaimerVersion
+                showLaunchDisclaimer = false
+            }
         }
     }
     
@@ -211,7 +264,6 @@ struct InputScreenView: View {
         
         return locationCondition && serviceCondition
     }
-
     // Conditional check for user current location or zipcode input
     func performSearch() {
         if isUsingCurrentLocation {
@@ -225,10 +277,10 @@ struct InputScreenView: View {
                 errorMessage = "Please enter a ZIP code."
                 return
             }
-            
+
             isLoading = true
             errorMessage = nil
-            
+
             geocode(zipCode: zipCode) { location in
                 guard let location = location else {
                     DispatchQueue.main.async {
@@ -237,11 +289,15 @@ struct InputScreenView: View {
                     }
                     return
                 }
-                
-                searchNearbyClinics(using: location)
+
+                DispatchQueue.main.async {
+                    self.geocodedLocation = location // Save the geocoded location
+                    self.searchNearbyClinics(using: location)
+                }
             }
         }
     }
+
     
     // Converting zipcode to location coordinates using geocoder and error handling
     func geocode(zipCode: String, completion: @escaping (CLLocation?) -> Void) {
@@ -265,7 +321,7 @@ struct InputScreenView: View {
     
     // Accessing CSV file and filtering the clinics based on search criteria
     func searchNearbyClinics(using location: CLLocation) {
-        guard let csvURL = Bundle.main.url(forResource: "addressesfinal", withExtension: "csv") else {
+        guard let csvURL = Bundle.main.url(forResource: "addressesall", withExtension: "csv") else {
             DispatchQueue.main.async {
                 self.errorMessage = "CSV file not found."
                 self.isLoading = false
@@ -381,36 +437,66 @@ struct InputScreenView: View {
         return result
     }
 }
-
 // Creating page and user interface for the search results
+
+func ensureCorrectScheme(for url: String) -> String {
+    if url.hasPrefix("http://") || url.hasPrefix("https://") {
+        return url // Use the existing scheme
+    } else {
+        return "https://\(url)" // Default to HTTPS if no scheme is present
+    }
+}
+
 struct SearchResultsView: View {
     @Binding var results: [Clinic]
     @Binding var isLoading: Bool
     @Binding var errorMessage: String?
     @ObservedObject var locationManager: LocationManager
-    
+    var geocodedLocation: CLLocation?
+    let language: AppLanguage
+    private var strings: AppStrings {
+        AppStrings(language: language)
+    }
     @State private var showInfoPopover = false
     @State private var showCallConfirmation = false
     @State private var selectedPhoneNumber: String = ""
     
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text("Number of clinics found: \(results.count)")
-                .font(.headline)
-                .padding(.top, 96)
-            
+
             if isLoading {
+
                 ProgressView()
-                    .padding()
+                    .padding(.top, 96)
+                    .frame(maxWidth: .infinity)
+
             } else if let errorMessage = errorMessage {
+
                 Text("Error: \(errorMessage)")
                     .foregroundColor(.red)
-                    .padding()
+                    .padding(.top, 96)
+                    .frame(maxWidth: .infinity)
+
             } else if results.isEmpty {
-                Text("No results found")
-                    .foregroundColor(.gray)
-                    .padding()
+
+                VStack {
+                    Spacer()
+
+                    Text(strings.clinicsFound(0))
+                        .font(.headline)
+                        .multilineTextAlignment(.center)
+                        .frame(maxWidth: .infinity)
+
+                    Spacer()
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+
             } else {
+
+                Text(strings.clinicsFound(results.count))
+                    .font(.headline)
+                    .padding(.top, 96)
+
                 ScrollView {
                     VStack(alignment: .leading, spacing: 16) {
                         ForEach(results.sorted { $0.distance < $1.distance }) { clinic in
@@ -418,48 +504,54 @@ struct SearchResultsView: View {
                                 Text(clinic.clinicName)
                                     .font(.headline)
                                     .bold()
-                                Text("Service Type: \(clinic.serviceTypes.joined(separator: ", "))")
-                                Text("Address: \(clinic.address)")
-                                Text("Phone: \(clinic.phone)")
-                                Text("Distance: \(clinic.distance, specifier: "%.2f") miles")
+                                Text(
+                                    "\(strings.serviceTypeLabel): " +
+                                    clinic.serviceTypes
+                                        .map { translatedServiceName($0) }
+                                        .joined(separator: ", ")
+                                )
+                                Text("\(strings.addressLabel): \(clinic.address)")
+                                Text("\(strings.phoneLabel): \(clinic.phone)")
+                                Text("\(strings.distanceLabel): \(strings.distanceMiles(clinic.distance))")
                                 
                                 HStack {
-                                    if let websiteURL = URL(string: clinic.website) {
+                                    if let websiteURL = URL(string: ensureCorrectScheme(for: clinic.website)) {
                                         Button(action: {
                                             UIApplication.shared.open(websiteURL)
                                         }) {
-                                            Text("Website")
+                                            Text(strings.website)
                                                 .font(.headline)
                                                 .foregroundColor(.white)
                                                 .padding(.horizontal, 16)
                                                 .padding(.vertical, 8)
                                                 .background(Color.blue)
-                                                .clipShape(Capsule())
+                                                .cornerRadius(20)
                                         }
                                         .padding(.trailing, 8)
                                     }
                                     
-                                    if let currentLocation = locationManager.currentLocation {
-                                        let directionsURL = URL(string: "https://www.google.com/maps/dir/?api=1&origin=\(currentLocation.coordinate.latitude),\(currentLocation.coordinate.longitude)&destination=\(clinic.latitude),\(clinic.longitude)&travelmode=driving")!
+                                    if let originLocation = locationManager.currentLocation ?? geocodedLocation {
+                                        let directionsURL = URL(string: "https://www.google.com/maps/dir/?api=1&origin=\(originLocation.coordinate.latitude),\(originLocation.coordinate.longitude)&destination=\(clinic.latitude),\(clinic.longitude)&travelmode=driving")!
                                         Button(action: {
                                             UIApplication.shared.open(directionsURL)
                                         }) {
-                                            Text("Directions")
+                                            Text(strings.directions)
                                                 .font(.headline)
                                                 .foregroundColor(.white)
                                                 .padding(.horizontal, 16)
                                                 .padding(.vertical, 8)
                                                 .background(Color.blue)
-                                                .clipShape(Capsule())
+                                                .cornerRadius(20)
                                         }
                                         .padding(.trailing, 8)
                                     }
+
                                     
                                     Button(action: {
                                         selectedPhoneNumber = clinic.phone
                                         showCallConfirmation = true
                                     }) {
-                                        Text("Call")
+                                        Text(strings.call)
                                             .font(.headline)
                                             .foregroundColor(.white)
                                             .padding(.horizontal, 16)
@@ -481,7 +573,7 @@ struct SearchResultsView: View {
         .padding(.horizontal)
         .background(Color(UIColor.systemBackground))
         .edgesIgnoringSafeArea(.all)
-        .navigationTitle("Search Results")
+        .navigationTitle(strings.searchResultsTitle)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(action: {
@@ -490,32 +582,13 @@ struct SearchResultsView: View {
                     Image(systemName: "info.circle")
                         .font(.body)
                 }
-                .popover(isPresented: $showInfoPopover) {
-                    GeometryReader { geometry in
-                        ZStack(alignment: .topLeading) {
-                            VStack(alignment: .leading, spacing: 16) {
-                                Text("\nDisclosure Statement:")
-                                    .font(.title3)
-                                    .padding(.top, 16)
-                                Text("The results provided via search in the ApolloHealth application are based on the database available from the Wisconsin Department of Health Services. For more detailed information about the clinics and the services they offer, please visit the respective clinic's website or contact the clinic directly.\n\nPlease note that the distances provided are straight-line distances between the input location and the destination clinic. Actual driving distances may vary depending on driving routes and conditions. To obtain driving distances and directions, please click on 'Directions' in the search results.")
-                                    .font(.caption)
-                                    .padding(.top, 8)
-                                Spacer()
-                            }
-                            .frame(width: geometry.size.width * 0.8)
-                            .padding()
-                            
-                            Button(action: {
-                                showInfoPopover = false
-                            }) {
-                                Image(systemName: "xmark")
-                                    .font(.body)
-                                    .padding()
-                            }
-                            .frame(width: geometry.size.width, height: geometry.size.height, alignment: .topLeading)
-                        }
+                .sheet(isPresented: $showInfoPopover) {
+                    DisclaimerView(
+                        language: language,
+                        acknowledgmentRequired: false
+                    ) {
+                        showInfoPopover = false
                     }
-                    .frame(width: 400, height: 740)
                 }
             }
         }
@@ -532,8 +605,29 @@ struct SearchResultsView: View {
             )
         }
     }
-}
+    
+    private func translatedServiceName(_ service: String) -> String {
+        switch service.lowercased() {
+        case "medical":
+            return strings.medical
 
+        case "dental":
+            return strings.dental
+
+        case "physical therapy":
+            return strings.physicalTherapy
+
+        case "behavioral health":
+            return strings.behavioralHealth
+
+        case "pharmacy":
+            return strings.pharmacy
+
+        default:
+            return service
+        }
+    }
+}
 //Creating template for the clinic result
 struct Clinic: Identifiable, Equatable {
     let id = UUID()
